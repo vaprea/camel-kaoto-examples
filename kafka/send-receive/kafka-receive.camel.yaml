@@ -1,0 +1,14 @@
+- route:
+    id: route-kafka-receive
+    from:
+      id: from-2220
+      uri: kafka
+      parameters:
+        autoOffsetReset: earliest
+        brokers: localhost:9092
+        groupId: myGroup
+        topic: logs-topic
+      steps:
+        - log:
+            id: log-3986
+            message: Messaggio ricevuto da Kafka ${body}

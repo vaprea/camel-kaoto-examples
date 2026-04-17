@@ -1,0 +1,24 @@
+- route:
+    id: route-kafka-send
+    from:
+      id: from-1730
+      uri: timer
+      parameters:
+        period: "2000"
+        timerName: template
+      steps:
+        - setBody:
+            id: setBody-3483
+            expression:
+              simple:
+                id: simple32ea
+                expression: Sample message
+        - to:
+            id: to-1502
+            uri: kafka
+            parameters:
+              brokers: localhost:9092
+              topic: logs-topic
+        - log:
+            id: log-3282
+            message: ${body}

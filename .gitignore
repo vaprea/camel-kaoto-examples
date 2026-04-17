@@ -1,0 +1,5 @@
+# JBang
+.jbang/
+.camel-jbang/
+jbang-catalog.json
+camel-jbang-run.properties
