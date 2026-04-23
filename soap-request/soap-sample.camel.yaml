@@ -1,0 +1,36 @@
+- route:
+    id: route-2766
+    from:
+      uri: "once:start"
+      steps:
+
+        - setHeaders:
+            headers:
+              - name: Content-Type
+                constant: "text/xml; charset=utf-8"
+              - name: SOAPAction
+                constant: "http://tempuri.org/Add"
+
+        - setBody:
+            constant: |
+              <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+                <soap:Body>
+                  <Add xmlns="http://tempuri.org/">
+                    <intA>5</intA>
+                    <intB>3</intB>
+                  </Add>
+                </soap:Body>
+              </soap:Envelope>
+
+        - to:
+            uri: "http://www.dneonline.com/calculator.asmx"
+
+        - log:
+            message: "RAW RESPONSE: ${body}"
+
+        - setBody:
+            xpath:
+              expression: "//*[local-name()='AddResult']/text()"
+
+        - log:
+            message: "RESULT = ${body}"
