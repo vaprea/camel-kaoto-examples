@@ -19,6 +19,18 @@ Each example targets a specific integration use case and is fully runnable with 
   - [Camel JBang](https://camel.apache.org/manual/camel-jbang.html) (Apache Camel CLI)
 - [Docker](https://www.docker.com/) and Docker Compose — only needed for examples that offer a Docker Compose option
 
+## Running Routes
+
+Routes can be started in two ways:
+
+**Camel CLI** — run a route directly from the terminal:
+
+```bash
+camel run <route-file>.camel.yaml
+```
+
+**Kaoto (VS Code)** — open a `.camel.yaml` file in the Kaoto editor. The **Integration** panel provides run actions to start the route without leaving the IDE. Routes launched this way appear in the **Deployments** section of Kaoto, where you can monitor their status, view logs, and stop them.
+
 ## Getting Started
 
 1. Clone this repository.
