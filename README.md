@@ -14,7 +14,9 @@ Each example targets a specific integration use case and is fully runnable with 
 ## Prerequisites
 
 - [Visual Studio Code](https://code.visualstudio.com/)
+  - **Recommended:** create a dedicated [VS Code Profile](https://code.visualstudio.com/docs/editor/profiles) for Camel/Kaoto work before installing extensions, so they stay isolated from your other profiles.
   - [Extension Pack for Apache Camel by Red Hat](https://marketplace.visualstudio.com/items?itemName=redhat.apache-camel-extension-pack) — includes the Kaoto visual editor
+  - [Container Tools](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-containers) — manage Docker containers and Compose stacks from within VS Code
 - [JBang](https://www.jbang.dev/)
   - [Camel JBang](https://camel.apache.org/manual/camel-jbang.html) (Apache Camel CLI)
 - [Docker](https://www.docker.com/) and Docker Compose — only needed for examples that offer a Docker Compose option
