@@ -11,4 +11,4 @@
       steps:
         - log:
             id: log-3986
-            message: Messaggio ricevuto da Kafka ${body}
+            message: Received message ${body}

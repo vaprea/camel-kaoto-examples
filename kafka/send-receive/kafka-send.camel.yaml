@@ -9,10 +9,9 @@
       steps:
         - setBody:
             id: setBody-3483
-            expression:
-              simple:
-                id: simple32ea
-                expression: Sample message
+            simple:
+              id: simple32ea
+              expression: Sample message from sender
         - to:
             id: to-1502
             uri: kafka

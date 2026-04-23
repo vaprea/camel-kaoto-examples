@@ -13,20 +13,38 @@ Both routes connect to a Kafka broker running at `localhost:9092`.
 
 ## Prerequisites
 
+- [Visual Studio Code](https://code.visualstudio.com/)
+  - [Extension Pack for Apache Camel by Red Hat](https://marketplace.visualstudio.com/items?itemName=redhat.apache-camel-extension-pack) 
+- [JBang](https://www.jbang.dev/)   
+  - [Camel JBang](https://camel.apache.org/manual/camel-jbang.html) (Apache Camel CLI)
 - [Docker](https://www.docker.com/) and Docker Compose
-- [Camel JBang](https://camel.apache.org/manual/camel-jbang.html) (Apache Camel CLI) with the Kaoto plugin
 
 ## Running the Example
 
 ### 1. Start the Kafka broker
 
-A single-node Kafka broker (KRaft mode, no Zookeeper) is provided via Docker Compose:
+Choose one of the two options below.
+
+**Option A — Camel JBang (no Docker required):**
+
+Camel JBang can spin up several Kafka-compatible distributions. Pick the one that matches your setup:
+
+| Distribution | Command |
+|---|---|
+| Apache Kafka | `camel infra run kafka` |
+| Confluent Platform | `camel infra run confluent` |
+| Redpanda | `camel infra run redpanda` |
+| Strimzi | `camel infra run strimzi` |
+
+All distributions expose a Kafka broker on `localhost:9092` — no Docker or separate installation required.
+
+**Option B — Docker Compose:**
 
 ```bash
 docker compose -f docker-compose.yml up -d
 ```
 
-This starts an `apache/kafka:4.1.1` container listening on `localhost:9092`.
+Both options start a Kafka broker listening on `localhost:9092`.
 
 ### 2. Run the Camel routes
 
@@ -35,13 +53,13 @@ Open two separate terminals inside the `send-receive/` directory and start each 
 **Terminal 1 — Consumer (receive first):**
 
 ```bash
-jbang camel@apache/camel run kafka-receive.camel.yaml
+camel run kafka-receive.camel.yaml
 ```
 
 **Terminal 2 — Producer (send):**
 
 ```bash
-jbang camel@apache/camel run kafka-send.camel.yaml
+camel run kafka-send.camel.yaml
 ```
 
 Start the consumer first so it is ready to receive messages before the producer begins sending.
@@ -53,6 +71,10 @@ You should see the producer printing `Sample message` every 2 seconds, and the c
 You can open either `.camel.yaml` file directly in the [Kaoto VS Code extension](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-kaoto) to visualise and edit the routes graphically.
 
 ### 4. Stop the Kafka broker
+
+**Option A — Camel JBang:** press `Ctrl+C` in the terminal where `camel infra run kafka` is running.
+
+**Option B — Docker Compose:**
 
 ```bash
 docker compose -f docker-compose.yml down
