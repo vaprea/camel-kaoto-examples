@@ -9,12 +9,15 @@ Each example targets a specific integration use case and is fully runnable with 
 | Folder | Description |
 |--------|-------------|
 | [kafka/send-receive](kafka/send-receive/README.md) | Publish and consume messages on an Apache Kafka topic using Camel's `kafka` component. Includes a Docker Compose file to spin up a local broker. |
+| [ftp](ftp/README.md) | Upload files to an FTP server and read them back with safe idempotent polling (`noop=true`, `idempotent=true`). Uses `camel infra run ftp` for a zero-config embedded FTP server. |
 
 ## Prerequisites
 
-- [Docker](https://www.docker.com/) and Docker Compose (for infrastructure dependencies)
-- [Camel JBang](https://camel.apache.org/manual/camel-jbang.html) to run routes locally
-- [Kaoto VS Code extension](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-kaoto) to edit routes visually (optional)
+- [Visual Studio Code](https://code.visualstudio.com/)
+  - [Extension Pack for Apache Camel by Red Hat](https://marketplace.visualstudio.com/items?itemName=redhat.apache-camel-extension-pack) — includes the Kaoto visual editor
+- [JBang](https://www.jbang.dev/)
+  - [Camel JBang](https://camel.apache.org/manual/camel-jbang.html) (Apache Camel CLI)
+- [Docker](https://www.docker.com/) and Docker Compose — only needed for examples that offer a Docker Compose option
 
 ## Getting Started
 

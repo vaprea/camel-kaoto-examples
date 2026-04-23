@@ -13,11 +13,7 @@ Both routes connect to a Kafka broker running at `localhost:9092`.
 
 ## Prerequisites
 
-- [Visual Studio Code](https://code.visualstudio.com/)
-  - [Extension Pack for Apache Camel by Red Hat](https://marketplace.visualstudio.com/items?itemName=redhat.apache-camel-extension-pack) 
-- [JBang](https://www.jbang.dev/)   
-  - [Camel JBang](https://camel.apache.org/manual/camel-jbang.html) (Apache Camel CLI)
-- [Docker](https://www.docker.com/) and Docker Compose
+See [Prerequisites](../../README.md#prerequisites) in the root README. Docker and Docker Compose are required if you choose the Docker Compose option to start the Kafka broker.
 
 ## Running the Example
 

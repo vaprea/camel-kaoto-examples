@@ -1,3 +1,6 @@
+# FTP generated files
+message-*.txt
+
 # JBang
 .jbang/
 .camel-jbang/

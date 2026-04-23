@@ -1,0 +1,24 @@
+- route:
+    id: route-ftp-send
+    from:
+      id: from-4821
+      uri: timer
+      parameters:
+        period: "5000"
+        timerName: ftp-sender
+      steps:
+        - setBody:
+            id: setBody-7193
+            simple:
+              id: simple-6a2f
+              expression: Sample message from FTP sender
+        - to:
+            id: to-3056
+            uri: ftp://localhost:2121/messages
+            parameters:
+              username: admin
+              password: admin
+              fileName: message-${date:now:yyyyMMddHHmmssSSS}.txt
+        - log:
+            id: log-8841
+            message: Sent file to FTP with content ${body}

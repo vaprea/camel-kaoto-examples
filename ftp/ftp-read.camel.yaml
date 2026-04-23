@@ -1,0 +1,14 @@
+- route:
+    id: route-ftp-read
+    from:
+      id: from-2347
+      uri: ftp://localhost:2121/messages
+      parameters:
+        username: admin
+        password: admin
+        noop: "true"
+        idempotent: "true"
+      steps:
+        - log:
+            id: log-5592
+            message: Received file ${header.CamelFileName} with content ${body}
