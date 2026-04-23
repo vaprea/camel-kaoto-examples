@@ -8,8 +8,8 @@ Each example targets a specific integration use case and is fully runnable with 
 
 | Folder | Description |
 |--------|-------------|
-| [kafka/send-receive](kafka/send-receive/README.md) | Publish and consume messages on an Apache Kafka topic using Camel's `kafka` component. Includes a Docker Compose file to spin up a local broker. |
 | [ftp](ftp/README.md) | Upload files to an FTP server and read them back with safe idempotent polling (`noop=true`, `idempotent=true`). Uses `camel infra run ftp` for a zero-config embedded FTP server. |
+| [kafka/send-receive](kafka/send-receive/README.md) | Publish and consume messages on an Apache Kafka topic using Camel's `kafka` component. Includes a Docker Compose file to spin up a local broker. |
 | [soap-request](soap-request/README.md) | Call a public SOAP web service over HTTP, build the envelope inline, and extract the result with XPath. No local infrastructure required. |
 
 ## Prerequisites
