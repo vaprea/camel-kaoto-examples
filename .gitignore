@@ -4,5 +4,6 @@ message-*.txt
 # JBang
 .jbang/
 .camel-jbang/
+**/.camel-jbang-run/
 jbang-catalog.json
 camel-jbang-run.properties
