@@ -1,0 +1,36 @@
+services:
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: orders-postgres
+    environment:
+      POSTGRES_DB: ordersdb
+      POSTGRES_USER: camel
+      POSTGRES_PASSWORD: camel
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - orders-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U camel -d ordersdb"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  mock-api:
+    image: wiremock/wiremock:3.9.1
+    container_name: orders-mock-api
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./wiremock:/home/wiremock
+    command: ["--verbose", "--global-response-templating"]
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:8080/__admin/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  orders-pgdata:

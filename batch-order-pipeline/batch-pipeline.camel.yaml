@@ -1,0 +1,114 @@
+- beans:
+    - name: customerEnrichStrategy
+      type: CustomerEnrichStrategy
+
+- onException:
+    id: pipeline-error-handler
+    exception:
+      - "java.lang.Exception"
+    handled:
+      constant: "true"
+    redeliveryPolicy:
+      maximumRedeliveries: 2
+      redeliveryDelay: "1000"
+    steps:
+      - log:
+          id: log-pipeline-error
+          message: "Pipeline error: ${exception.message}"
+      - to:
+          id: to-dlq-pipeline
+          uri: "file:output/errors"
+          parameters:
+            fileName: "dlq-pipeline-${date:now:yyyyMMdd-HHmmss}.json"
+            autoCreate: "true"
+
+- route:
+    id: batch-file-pipeline
+    from:
+      uri: file:input
+      parameters:
+        include: ".*\\.csv"
+        scheduler: quartz
+        scheduler.cron: "0 0/1 * * * ?"
+        move: processed
+        moveFailed: failed
+      steps:
+        - log:
+            id: log-file-start
+            message: "Batch job started — file: ${header.CamelFileName} (${header.CamelFileLength} bytes)"
+
+        - unmarshal:
+            id: unmarshal-csv
+            csv:
+              useMaps: true
+              skipHeaderRecord: true
+
+        - log:
+            id: log-record-count
+            message: "CSV parsed — ${body.size()} rows loaded, splitting into individual records"
+
+        - split:
+            id: split-orders
+            expression:
+              simple: "${body}"
+            streaming: true
+            parallelProcessing: false
+            steps:
+              - filter:
+                  id: filter-valid-orders
+                  expression:
+                    simple: "${body[order_id]} != '' && ${body[customer_id]} != '' && ${body[amount]} != ''"
+                  steps:
+                    - enrich:
+                        id: enrich-customer-data
+                        expression:
+                          constant: "direct:db-lookup"
+
+                    - aggregate:
+                        id: aggregate-batch
+                        correlationExpression:
+                          constant: "order-batch"
+                        completionSize: 10
+                        completionTimeout: "5000"
+                        forceCompletionOnStop: true
+                        aggregationStrategy: "#class:org.apache.camel.processor.aggregate.GroupedBodyAggregationStrategy"
+                        steps:
+                          - log:
+                              id: log-batch-ready
+                              message: "Batch complete — dispatching ${header.CamelAggregatedSize} orders"
+                          - to:
+                              id: to-send-batch
+                              uri: direct:send-batch
+
+- route:
+    id: db-lookup
+    from:
+      uri: direct:db-lookup
+      steps:
+        - setProperty:
+            id: save-original-order
+            name: originalOrder
+            expression:
+              simple: "${body}"
+
+        - setHeader:
+            id: set-customer-id
+            name: customerId
+            expression:
+              simple: "${body[customer_id]}"
+
+        - to:
+            id: sql-customer-lookup
+            uri: "sql:SELECT customer_name, customer_email, tier FROM customers WHERE customer_id = :#${header.customerId}"
+            parameters:
+              dataSource: "#dataSource"
+              outputType: SelectOne
+
+        - log:
+            id: log-enriched
+            message: "Customer found for ${header.customerId}: ${body[customer_name]} (${body[tier]})"
+
+        - bean:
+            id: merge-order-customer
+            ref: customerEnrichStrategy
+            method: mergeWithOriginal

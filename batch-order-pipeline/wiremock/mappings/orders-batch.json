@@ -1,0 +1,13 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/api/orders/batch"
+  },
+  "response": {
+    "status": 202,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": "{\"status\":\"accepted\",\"message\":\"Batch received and queued for processing\",\"received_at\":\"{{now format='yyyy-MM-dd HH:mm:ss'}}\"}"
+  }
+}

@@ -1,0 +1,57 @@
+- errorHandler:
+    deadLetterChannel:
+      deadLetterUri: "file:output/errors?fileName=dlq-sender-${date:now:yyyyMMdd-HHmmss}.json&autoCreate=true"
+      redeliveryPolicy:
+        maximumRedeliveries: 3
+        redeliveryDelay: 2000
+        useExponentialBackOff: true
+        backOffMultiplier: 2.0
+        logRetryAttempted: true
+
+- route:
+    id: batch-sender
+    from:
+      uri: direct:send-batch
+      steps:
+        - log:
+            id: log-sending
+            message: "Sending batch of ${header.CamelAggregatedSize} orders to REST API"
+
+        - marshal:
+            id: marshal-batch-to-json
+            json:
+              library: Jackson
+
+        - setHeader:
+            id: set-content-type
+            name: Content-Type
+            expression:
+              constant: "application/json"
+
+        - doTry:
+            id: try-http-post
+            steps:
+              - to:
+                  id: http-post-batch
+                  uri: "http://localhost:8080/api/orders/batch"
+                  parameters:
+                    httpMethod: POST
+              - log:
+                  id: log-accepted
+                  message: "Batch accepted by API — HTTP ${header.CamelHttpResponseCode}"
+            doCatch:
+              - exception:
+                  - "org.apache.camel.http.base.HttpOperationFailedException"
+                  - "java.io.IOException"
+                steps:
+                  - log:
+                      id: log-api-error
+                      message: "API call failed: ${exception.message} — routing to Dead Letter Channel"
+                  - to:
+                      id: to-dlq
+                      uri: "file:output/errors"
+                      parameters:
+                        fileName: "failed-batch-${date:now:yyyyMMdd-HHmmss}.json"
+                  - log:
+                      id: log-dlq-written
+                      message: "Batch written to Dead Letter Channel: output/errors/"
