@@ -1,0 +1,15 @@
+extends: default
+
+ignore: |
+  .camel-jbang-run/
+  .camel-jbang/
+
+rules:
+  line-length:
+    max: 200
+    level: warning
+  truthy:
+    allowed-values: ['true', 'false']
+    check-keys: false
+  comments:
+    min-spaces-from-content: 1

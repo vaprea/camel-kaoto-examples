@@ -1,0 +1,26 @@
+{
+  "recommendations": [
+    // ─── Esperienza IntelliJ ──────────────────────────────────────────
+    "k--kato.intellij-idea-keybindings",
+
+    // ─── Tema & icone ─────────────────────────────────────────────────
+    "zhuangtongfa.one-dark-pro",
+    "pkief.material-icon-theme",
+
+    // ─── Git avanzato ─────────────────────────────────────────────────
+    "eamodio.gitlens",
+
+    // ─── Qualità del codice ───────────────────────────────────────────
+    "usernamehw.errorlens",
+    "streetsidesoftware.code-spell-checker",
+    "pflannery.vscode-versionlens",
+    "gruntfuggly.todo-tree",
+
+    // ─── Utilità generali ─────────────────────────────────────────────
+    "christian-kohler.path-intellisense",
+    "visualstudioexptteam.vscodeintellicode",
+
+    // ─── Task buttons nella status bar ───────────────────────────────
+    "spencerwmiles.vscode-task-buttons"
+  ]
+}

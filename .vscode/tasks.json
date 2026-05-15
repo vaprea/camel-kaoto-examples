@@ -1,0 +1,145 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+
+        // ─── Camel: esegui route ──────────────────────────────────────────
+
+        {
+            "label": "Camel: Run (file corrente)",
+            "type": "shell",
+            "command": "camel run ${file}",
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Camel: Run --dev (hot reload)",
+            "type": "shell",
+            "command": "camel run --dev ${file}",
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true
+            },
+            "isBackground": true,
+            "problemMatcher": []
+        },
+        {
+            "label": "Camel: Dry-run (valida senza eseguire)",
+            "type": "shell",
+            "command": "camel run --dry-run ${file}",
+            "group": "test",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "clear": true
+            },
+            "problemMatcher": []
+        },
+
+        // ─── Esempi specifici ─────────────────────────────────────────────
+
+        {
+            "label": "Run: soap-request",
+            "type": "shell",
+            "command": "camel run soap-request/soap-sample.camel.yaml",
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Run: batch-order-pipeline",
+            "type": "shell",
+            "command": "camel run batch-order-pipeline/batch-pipeline.camel.yaml batch-order-pipeline/batch-sender.camel.yaml",
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true
+            },
+            "dependsOn": "Docker: batch-order-pipeline up",
+            "problemMatcher": []
+        },
+        {
+            "label": "Run: kafka send+receive",
+            "type": "shell",
+            "command": "camel run kafka/send-receive/kafka-send.camel.yaml kafka/send-receive/kafka-receive.camel.yaml",
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true
+            },
+            "dependsOn": "Docker: kafka up",
+            "problemMatcher": []
+        },
+
+        // ─── Docker Compose ───────────────────────────────────────────────
+
+        {
+            "label": "Docker: kafka up",
+            "type": "shell",
+            "command": "docker-compose up -d",
+            "options": {
+                "cwd": "${workspaceFolder}/kafka/send-receive"
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "clear": false
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Docker: kafka down",
+            "type": "shell",
+            "command": "docker-compose down",
+            "options": {
+                "cwd": "${workspaceFolder}/kafka/send-receive"
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "clear": false
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Docker: batch-order-pipeline up",
+            "type": "shell",
+            "command": "docker-compose up -d",
+            "options": {
+                "cwd": "${workspaceFolder}/batch-order-pipeline"
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "clear": false
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Docker: batch-order-pipeline down",
+            "type": "shell",
+            "command": "docker-compose down",
+            "options": {
+                "cwd": "${workspaceFolder}/batch-order-pipeline"
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "clear": false
+            },
+            "problemMatcher": []
+        }
+    ]
+}
