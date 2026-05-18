@@ -1,0 +1,17 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/api/availability"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": [
+      {"productId": "P1", "available": true, "stock": 150},
+      {"productId": "P2", "available": true, "stock": 42},
+      {"productId": "P3", "available": false, "stock": 0}
+    ]
+  }
+}

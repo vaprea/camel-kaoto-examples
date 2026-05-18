@@ -1,0 +1,91 @@
+- beans:
+    - name: mergeStrategy
+      type: MergeAggregationStrategy
+
+- route:
+    id: api-gateway
+    from:
+      id: from-timer
+      uri: timer:trigger
+      parameters:
+        period: "5000"
+      steps:
+        - log:
+            id: log-start
+            message: "[gateway] Incoming request — fetching catalog from 3 microservices..."
+        - multicast:
+            id: scatter-gather
+            parallelProcessing: true
+            aggregationStrategy: "#mergeStrategy"
+            steps:
+              - to:
+                  id: to-fetch-products
+                  uri: direct:fetch-products
+              - to:
+                  id: to-fetch-prices
+                  uri: direct:fetch-prices
+              - to:
+                  id: to-fetch-stock
+                  uri: direct:fetch-stock
+        - log:
+            id: log-aggregated
+            message: "[gateway] Aggregated catalog ready — returning JSON response to frontend"
+        - setHeader:
+            id: set-content-type
+            name: Content-Type
+            expression:
+              constant: application/json
+        - log:
+            id: log-response
+            message: "[frontend] Response received: ${body}"
+
+- route:
+    id: fetch-products
+    from:
+      id: from-direct-products
+      uri: direct:fetch-products
+      steps:
+        - setHeader:
+            id: set-service-products
+            name: ServiceName
+            expression:
+              constant: products
+        - to:
+            id: call-products-service
+            uri: "http://localhost:8082/api/items"
+            parameters:
+              httpMethod: GET
+
+- route:
+    id: fetch-prices
+    from:
+      id: from-direct-prices
+      uri: direct:fetch-prices
+      steps:
+        - setHeader:
+            id: set-service-prices
+            name: ServiceName
+            expression:
+              constant: prices
+        - to:
+            id: call-prices-service
+            uri: "http://localhost:8082/api/prices"
+            parameters:
+              httpMethod: GET
+
+- route:
+    id: fetch-stock
+    from:
+      id: from-direct-stock
+      uri: direct:fetch-stock
+      steps:
+        - setHeader:
+            id: set-service-stock
+            name: ServiceName
+            expression:
+              constant: stock
+        - to:
+            id: call-stock-service
+            uri: "http://localhost:8082/api/availability"
+            parameters:
+              httpMethod: GET

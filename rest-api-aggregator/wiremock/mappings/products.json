@@ -1,0 +1,17 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/api/items"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": [
+      {"id": "P1", "name": "Widget A", "category": "electronics"},
+      {"id": "P2", "name": "Gadget B", "category": "accessories"},
+      {"id": "P3", "name": "Device C", "category": "electronics"}
+    ]
+  }
+}

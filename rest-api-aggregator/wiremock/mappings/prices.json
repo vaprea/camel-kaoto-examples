@@ -1,0 +1,17 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/api/prices"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": [
+      {"productId": "P1", "price": 29.99, "currency": "EUR"},
+      {"productId": "P2", "price": 14.50, "currency": "EUR"},
+      {"productId": "P3", "price": 89.00, "currency": "EUR"}
+    ]
+  }
+}

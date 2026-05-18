@@ -45,6 +45,33 @@
         // ─── Esempi specifici ─────────────────────────────────────────────
 
         {
+            "label": "Run: rest-api-aggregator",
+            "type": "shell",
+            "command": "camel run rest-api-aggregator/api-aggregator.camel.yaml rest-api-aggregator/MergeAggregationStrategy.java --property camel.server.port=8081",
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true
+            },
+            "dependsOn": "Docker: rest-api-aggregator up",
+            "problemMatcher": []
+        },
+        {
+            "label": "Run: rest-api-aggregator --dev",
+            "type": "shell",
+            "command": "camel run --dev rest-api-aggregator/api-aggregator.camel.yaml rest-api-aggregator/MergeAggregationStrategy.java --property camel.server.port=8081",
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true
+            },
+            "isBackground": true,
+            "dependsOn": "Docker: rest-api-aggregator up",
+            "problemMatcher": []
+        },
+        {
             "label": "Run: soap-request",
             "type": "shell",
             "command": "camel run soap-request/soap-sample.camel.yaml",
@@ -119,6 +146,34 @@
             "command": "docker-compose up -d",
             "options": {
                 "cwd": "${workspaceFolder}/batch-order-pipeline"
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "clear": false
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Docker: rest-api-aggregator up",
+            "type": "shell",
+            "command": "docker compose up -d",
+            "options": {
+                "cwd": "${workspaceFolder}/rest-api-aggregator"
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "clear": false
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Docker: rest-api-aggregator down",
+            "type": "shell",
+            "command": "docker compose down",
+            "options": {
+                "cwd": "${workspaceFolder}/rest-api-aggregator"
             },
             "presentation": {
                 "reveal": "always",

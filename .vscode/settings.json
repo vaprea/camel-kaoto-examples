@@ -10,7 +10,7 @@
     "terminal.integrated.fontSize": 13,
     // ─── Tema & colori (stile IntelliJ) ──────────────────────────────
     // Installa l'estensione "One Dark Pro" o "IntelliJ IDEA Theme"
-    "workbench.colorTheme": "Dark 2026",
+    "workbench.colorTheme": "Light 2026",
     // Installa l'estensione "Material Icon Theme"
     "workbench.iconTheme": "material-icon-theme",
     "editor.semanticHighlighting.enabled": true,

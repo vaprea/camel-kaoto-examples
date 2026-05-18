@@ -13,6 +13,7 @@ Each example targets a specific integration use case and is fully runnable with 
 | [kafka/send-receive](kafka/send-receive/README.md) | Publish and consume messages on an Apache Kafka topic using Camel's `kafka` component. Includes a Docker Compose file to spin up a local broker. |
 | [kafka/order-router](kafka/order-router/README.md) | Consume e-commerce order events from Kafka, classify them by urgency with a Content-Based Router (`choice`), and dispatch to separate JMS queues (`priority-orders`, `standard-orders`). Includes Docker Compose with Kafka and ActiveMQ Artemis. |
 | [soap-request](soap-request/README.md) | Call a public SOAP web service over HTTP, build the envelope inline, and extract the result with XPath. No local infrastructure required. |
+| [rest-api-aggregator](rest-api-aggregator/README.md) | Internal API gateway that fans out to three REST microservices in parallel (Scatter-Gather), merges the JSON responses with a custom Aggregator bean, and publishes the composite catalog to Kafka. Includes Docker Compose with WireMock and Kafka. |
 
 ## Prerequisites
 
