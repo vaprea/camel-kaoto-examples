@@ -1,0 +1,59 @@
+- rest:
+    path: /api/country
+    get:
+      - path: "/{code}"
+        to: direct:soap-lookup
+
+- route:
+    id: soap-integration-route
+    from:
+      uri: direct:soap-lookup
+      steps:
+        - log:
+            message: "[soap-bridge] Received request for country code: ${header.code}"
+
+        - setHeaders:
+            headers:
+              - name: Content-Type
+                constant: "text/xml; charset=utf-8"
+              - name: SOAPAction
+                constant: ""
+
+        - setBody:
+            expression:
+              simple: |
+                <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:web="http://www.oorsprong.org/websamples.countryinfo">
+                  <soapenv:Header/>
+                  <soapenv:Body>
+                    <web:CountryName>
+                      <web:sCountryISOCode>${header.code}</web:sCountryISOCode>
+                    </web:CountryName>
+                  </soapenv:Body>
+                </soapenv:Envelope>
+
+        - removeHeaders:
+            pattern: "CamelHttp*"
+
+        - to:
+            uri: "http://webservices.oorsprong.org/websamples.countryinfo/CountryInfoService.wso?bridgeEndpoint=true&httpMethod=POST"
+
+        - log:
+            message: "[soap-bridge] Raw SOAP response: ${body}"
+
+        - setHeader:
+            name: countryName
+            expression:
+              xpath:
+                expression: "//*[local-name()='CountryNameResult']/text()"
+
+        - setBody:
+            expression:
+              simple: '{"code": "${header.code}", "name": "${header.countryName}"}'
+
+        - setHeader:
+            name: Content-Type
+            expression:
+              constant: "application/json"
+
+        - log:
+            message: "[soap-bridge] JSON response: ${body}"
