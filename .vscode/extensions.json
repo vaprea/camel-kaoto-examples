@@ -1,26 +1,30 @@
 {
   "recommendations": [
-    // ─── Esperienza IntelliJ ──────────────────────────────────────────
+    // ─── Camel / Kaoto ────────────────────────────────────────────────
+    "redhat.vscode-debug-adapter-apache-camel",
+    "redhat.vscode-apache-camel",
+
+    // ─── IntelliJ Experience ─────────────────────────────────────────
     "k--kato.intellij-idea-keybindings",
 
-    // ─── Tema & icone ─────────────────────────────────────────────────
+    // ─── Theme & Icons ────────────────────────────────────────────────
     "zhuangtongfa.one-dark-pro",
     "pkief.material-icon-theme",
 
-    // ─── Git avanzato ─────────────────────────────────────────────────
+    // ─── Advanced Git ─────────────────────────────────────────────────
     "eamodio.gitlens",
 
-    // ─── Qualità del codice ───────────────────────────────────────────
+    // ─── Code Quality ─────────────────────────────────────────────────
     "usernamehw.errorlens",
     "streetsidesoftware.code-spell-checker",
     "pflannery.vscode-versionlens",
     "gruntfuggly.todo-tree",
 
-    // ─── Utilità generali ─────────────────────────────────────────────
+    // ─── General Utilities ────────────────────────────────────────────
     "christian-kohler.path-intellisense",
     "visualstudioexptteam.vscodeintellicode",
 
-    // ─── Task buttons nella status bar ───────────────────────────────
+    // ─── Task Buttons in Status Bar ──────────────────────────────────
     "spencerwmiles.vscode-task-buttons"
   ]
 }
