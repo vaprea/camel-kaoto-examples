@@ -1,0 +1,43 @@
+- route:
+    id: urgent-order-producer
+    from:
+      id: from-urgent-timer
+      uri: timer
+      parameters:
+        timerName: urgent-producer
+        period: "5000"
+      steps:
+        - setBody:
+            id: setBody-urgent
+            constant: '{"orderId":"ORD-U1","type":"urgent","customer":"Alice","amount":750}'
+        - to:
+            id: to-kafka-urgent
+            uri: kafka
+            parameters:
+              brokers: localhost:9092
+              topic: orders-topic
+        - log:
+            id: log-urgent-sent
+            message: "[producer] Sent urgent order: ${body}"
+
+- route:
+    id: standard-order-producer
+    from:
+      id: from-standard-timer
+      uri: timer
+      parameters:
+        timerName: standard-producer
+        period: "3000"
+      steps:
+        - setBody:
+            id: setBody-standard
+            constant: '{"orderId":"ORD-S1","type":"standard","customer":"Bob","amount":45}'
+        - to:
+            id: to-kafka-standard
+            uri: kafka
+            parameters:
+              brokers: localhost:9092
+              topic: orders-topic
+        - log:
+            id: log-standard-sent
+            message: "[producer] Sent standard order: ${body}"

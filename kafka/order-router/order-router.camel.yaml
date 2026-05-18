@@ -1,0 +1,44 @@
+- beans:
+    - name: jmsConnectionFactory
+      type: org.apache.activemq.artemis.jms.client.ActiveMQConnectionFactory
+      constructors:
+        "0": "tcp://localhost:61616"
+        "1": "{{artemis.username:admin}}"
+        "2": "{{artemis.password:admin}}"
+
+- route:
+    id: kafka-order-router
+    from:
+      id: from-kafka-orders
+      uri: kafka
+      parameters:
+        autoOffsetReset: earliest
+        brokers: localhost:9092
+        groupId: order-router-group
+        topic: orders-topic
+      steps:
+        - log:
+            id: log-order-received
+            message: "[router] Order received: ${body}"
+        - choice:
+            id: choice-order-type
+            when:
+              - id: when-urgent
+                expression:
+                  jsonpath: "$[?(@.type == 'urgent')]"
+                steps:
+                  - log:
+                      id: log-route-priority
+                      message: "[router] Routing to priority queue: ${body}"
+                  - to:
+                      id: to-priority-queue
+                      uri: jms:queue:priority-orders
+            otherwise:
+              id: otherwise-standard
+              steps:
+                - log:
+                    id: log-route-standard
+                    message: "[router] Routing to standard queue: ${body}"
+                - to:
+                    id: to-standard-queue
+                    uri: jms:queue:standard-orders
