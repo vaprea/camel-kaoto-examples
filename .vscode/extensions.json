@@ -3,27 +3,20 @@
     // ─── Camel / Kaoto ────────────────────────────────────────────────
     "redhat.vscode-debug-adapter-apache-camel",
     "redhat.vscode-apache-camel",
-
     // ─── IntelliJ Experience ─────────────────────────────────────────
     "k--kato.intellij-idea-keybindings",
-
     // ─── Theme & Icons ────────────────────────────────────────────────
     "zhuangtongfa.one-dark-pro",
     "pkief.material-icon-theme",
-
     // ─── Advanced Git ─────────────────────────────────────────────────
     "eamodio.gitlens",
-
     // ─── Code Quality ─────────────────────────────────────────────────
     "usernamehw.errorlens",
     "streetsidesoftware.code-spell-checker",
     "pflannery.vscode-versionlens",
     "gruntfuggly.todo-tree",
-
     // ─── General Utilities ────────────────────────────────────────────
     "christian-kohler.path-intellisense",
-    "visualstudioexptteam.vscodeintellicode",
-
     // ─── Task Buttons in Status Bar ──────────────────────────────────
     "spencerwmiles.vscode-task-buttons"
   ]
